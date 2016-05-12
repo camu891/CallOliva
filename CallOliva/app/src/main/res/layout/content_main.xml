@@ -13,10 +13,51 @@
     tools:showIn="@layout/app_bar_main">
 
 
-   <!--ListView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_buscar"
+            android:hint="Buscar..."
+            android:singleLine="true" />
+
+            <Button
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/btn_buscar"
+
+                android:background="@android:drawable/ic_search_category_default"
+                android:layout_below="@+id/txt_buscar"
+                android:layout_marginLeft="-50dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="-5dp"
+                android:backgroundTint="@color/colorAccent" />
+
+
+        </LinearLayout>
+
+
+
+
+
+
+   <ListView
         android:id="@+id/listview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/-->
+        android:layout_height="wrap_content"
+       android:longClickable="false" />
+
+
 
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,6 +66,9 @@
         android:layout_height="match_parent"
         android:padding="3dp"
         android:scrollbars="vertical" />
+
+
+    </LinearLayout>
 
 
 

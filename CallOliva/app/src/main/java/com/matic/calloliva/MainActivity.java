@@ -1,8 +1,11 @@
 package com.matic.calloliva;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private ListView listado;
     private CardView cardView;
@@ -34,6 +39,13 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager lManager;
 
+    private DataBaseManager dbmanager;
+    private Cursor cursor;
+
+    private SimpleCursorAdapter adaptador;
+
+    private EditText editTxt;
+    private Button btnBuscar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +54,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -62,12 +74,20 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        //cargamos el listado
-        //cargarListado();
-
-        cargarCardView();
 
 
+
+        DBHelper helper=new DBHelper(this);
+        SQLiteDatabase db=helper.getWritableDatabase();
+
+
+        cargarListado();
+
+        //cargarCardView();
+
+        editTxt= (EditText) findViewById(R.id.txt_buscar);
+        btnBuscar= (Button) findViewById(R.id.btn_buscar);
+        btnBuscar.setOnClickListener(this);
 
 
 
@@ -132,14 +152,35 @@ public class MainActivity extends AppCompatActivity
 
 
 
-   /* private void cargarListado(){
+   private void cargarListado(){
+
+
+       dbmanager=new DataBaseManager(this);
+       /*dbmanager.insertar("Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva"," Cordoba","Argentina",R.drawable.ic_menu_camera);
+       dbmanager.insertar("Bomberos2","Bomberos2","324324",-34.565656,-60.54656,"Bolivia",156,"Oliva"," Cordoba","Argentina",R.drawable.ic_menu_camera);
+       dbmanager.insertar("Bomberos3","Bomberos3","132432",-34.565656,-60.54656,"Bolivia",156,"Oliva"," Cordoba","Argentina",R.drawable.ic_menu_camera);
+        */
+
+       cursor=dbmanager.cargarCursorEntidades();
+
         listado = (ListView)findViewById(R.id.listview);
         //cardView= (CardView) findViewById(R.id.card_view);
 
-        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this,
-                R.array.Categorias, android.R.layout.simple_spinner_item);
+        //ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this,
+        //        R.array.Categorias, android.R.layout.simple_spinner_item);
+
+        /*
+       String[] from= new String[]{dbmanager.CN_NAME,dbmanager.CN_DESCRIPCION,dbmanager.CN_TELEFONO};
+       int[] to=new int[]{android.R.id.title,android.R.id.text1,android.R.id.text2,};
 
 
+        adaptador=new SimpleCursorAdapter(this,android.R.layout.two_line_list_item,cursor,from,to);
+
+       */
+         String[] from= new String[]{dbmanager.CN_LOGO,dbmanager.CN_NAME,dbmanager.CN_DESCRIPCION,dbmanager.CN_TELEFONO};
+        int[] to=new int[]{R.id.imagen,R.id.nombre,R.id.descripcion,R.id.telefono};
+
+        adaptador=new SimpleCursorAdapter(this,R.layout.card_view,cursor,from,to);
         listado.setAdapter(adaptador);
 
         listado.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -147,23 +188,39 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
                 // TODO Auto-generated method stub
-                Toast.makeText(getApplicationContext(), "Ha pulsado el item " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Item select: " + position +"\nAdapter: "+arg0, Toast.LENGTH_SHORT).show();
 
             }
 
         });
-    }*/
+
+
+
+
+
+
+
+
+}
 
 
     public void cargarCardView(){
+
+
+
         List<Entidad> items = new ArrayList<>();
 
-        items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva Cordoba","Argentina",R.drawable.ic_menu_camera));
-        items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva Cordoba","Argentina",R.drawable.ic_menu_manage));
-        items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva Cordoba","Argentina",R.drawable.ic_menu_camera));
-        items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva Cordoba","Argentina",R.drawable.ic_menu_manage));
-        items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva Cordoba","Argentina",R.drawable.ic_menu_camera));
-        items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva Cordoba","Argentina",R.drawable.ic_menu_manage));
+        items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", " Cordoba","Argentina",R.drawable.ic_menu_camera));
+        items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", " Cordoba","Argentina",R.drawable.ic_menu_manage));
+        items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva ", "Cordoba","Argentina",R.drawable.ic_menu_camera));
+        items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", "Cordoba","Argentina",R.drawable.ic_menu_manage));
+        items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva ", "Cordoba","Argentina",R.drawable.ic_menu_camera));
+        items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", "Cordoba","Argentina",R.drawable.ic_menu_manage));
+
+
+
+
+
 
 
         // Obtener el Recycler
@@ -178,16 +235,31 @@ public class MainActivity extends AppCompatActivity
         adapter = new EntidadAdapter(items);
         recycler.setAdapter(adapter);
 
+
+
+
     }
 
 
+    @Override
+    public void onClick(View view) {
+        if(view.getId()==R.id.btn_buscar)
+        {
+
+        String txtingresado=editTxt.getText().toString();
+
+            if (!txtingresado.isEmpty()){
 
 
+                Cursor c=dbmanager.buscarEntidad(txtingresado);
+                adaptador.changeCursor(c);
 
 
+            } else{
+                Toast.makeText(this,"Debe ingresar algun nombre válido",Toast.LENGTH_SHORT).show();
+            }
 
 
-
-
-
+        }
+    }
 }

@@ -14,10 +14,11 @@ public class Entidad {
     private String calle;
     private int nroCalle;
     private String ciudad;
+    private String provincia;
     private String pais;
     private int logo;
 
-    public Entidad(int id,String nombre, String descripcion, String telefono, double lat, double lon, String calle,int nroCalle, String ciudad,String pais, int logo) {
+    public Entidad(int id,String nombre, String descripcion, String telefono, double lat, double lon, String calle,int nroCalle, String ciudad,String provincia,String pais, int logo) {
         this.id=id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -27,6 +28,7 @@ public class Entidad {
         this.calle = calle;
         this.nroCalle=nroCalle;
         this.ciudad = ciudad;
+        this.provincia=provincia;
         this.logo = logo;
         this.pais = pais;
 
@@ -68,6 +70,10 @@ public class Entidad {
         return ciudad;
     }
 
+    public String getProvincia() {
+        return provincia;
+    }
+
     public String getPais() {
         return pais;
     }
@@ -80,7 +86,6 @@ public class Entidad {
     public void setId(int id) {
         this.id = id;
     }
-
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -114,6 +119,10 @@ public class Entidad {
         this.ciudad = ciudad;
     }
 
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
     public void setPais(String pais) {
         this.pais = pais;
     }
@@ -134,6 +143,7 @@ public class Entidad {
                 ", calle='" + calle + '\'' +
                 ", nroCalle=" + nroCalle +
                 ", ciudad='" + ciudad + '\'' +
+                ", provincia='" + provincia+ '\'' +
                 ", pais='" + pais + '\'' +
                 ", logo='" + logo + '\'' +
                 '}';

@@ -7,6 +7,7 @@
     card_view:cardElevation="4dp"
     card_view:cardUseCompatPadding="true">
 
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -50,14 +51,7 @@
             android:layout_below="@+id/descripcion"
             android:layout_alignLeft="@+id/descripcion" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/idt"
-            android:layout_below="@+id/telefono"
-            android:layout_alignLeft="@+id/telefono" />
+
 
 
         <!--<View
