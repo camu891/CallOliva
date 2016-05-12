@@ -36,7 +36,7 @@
                 android:layout_height="45dp"
                 android:id="@+id/btn_buscar"
 
-                android:background="@android:drawable/ic_search_category_default"
+                android:background="@drawable/ic_action_search"
                 android:layout_below="@+id/txt_buscar"
                 android:layout_marginLeft="-50dp"
                 android:gravity="center_vertical"

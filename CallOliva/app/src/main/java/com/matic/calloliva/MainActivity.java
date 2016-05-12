@@ -1,5 +1,6 @@
 package com.matic.calloliva;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -161,24 +163,12 @@ public class MainActivity extends AppCompatActivity
        dbmanager.insertar("Bomberos3","Bomberos3","132432",-34.565656,-60.54656,"Bolivia",156,"Oliva"," Cordoba","Argentina",R.drawable.ic_menu_camera);
         */
 
-       cursor=dbmanager.cargarCursorEntidades();
+        cursor=dbmanager.cargarCursorEntidades();
 
         listado = (ListView)findViewById(R.id.listview);
-        //cardView= (CardView) findViewById(R.id.card_view);
 
-        //ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this,
-        //        R.array.Categorias, android.R.layout.simple_spinner_item);
-
-        /*
-       String[] from= new String[]{dbmanager.CN_NAME,dbmanager.CN_DESCRIPCION,dbmanager.CN_TELEFONO};
-       int[] to=new int[]{android.R.id.title,android.R.id.text1,android.R.id.text2,};
-
-
-        adaptador=new SimpleCursorAdapter(this,android.R.layout.two_line_list_item,cursor,from,to);
-
-       */
-         String[] from= new String[]{dbmanager.CN_LOGO,dbmanager.CN_NAME,dbmanager.CN_DESCRIPCION,dbmanager.CN_TELEFONO};
-        int[] to=new int[]{R.id.imagen,R.id.nombre,R.id.descripcion,R.id.telefono};
+        String[] from= new String[]{dbmanager.CN_LOGO,dbmanager.CN_NAME,dbmanager.CN_DESCRIPCION,dbmanager.CN_TELEFONO,dbmanager.CN_LAT,dbmanager.CN_LON};
+        int[] to=new int[]{R.id.imagen,R.id.nombre,R.id.descripcion,R.id.telefono,R.id.lat,R.id.lon};
 
         adaptador=new SimpleCursorAdapter(this,R.layout.card_view,cursor,from,to);
         listado.setAdapter(adaptador);
@@ -186,19 +176,37 @@ public class MainActivity extends AppCompatActivity
         listado.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+            public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
                 // TODO Auto-generated method stub
-                Toast.makeText(getApplicationContext(), "Item select: " + position +"\nAdapter: "+arg0, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Item select: " + position, Toast.LENGTH_SHORT).show();
+
+                // getting values from selected ListItem
+                String nombre = ((TextView) view.findViewById(R.id.nombre)).getText().toString();
+                String descripcion = ((TextView) view.findViewById(R.id.descripcion)).getText().toString();
+                String telefono = ((TextView) view.findViewById(R.id.telefono)).getText().toString();
+                String lat=((TextView) view.findViewById(R.id.lat)).getText().toString();
+                String lon=((TextView) view.findViewById(R.id.lon)).getText().toString();
+                String logo=view.findViewById(R.id.imagen).getResources().toString();
+
+                // Starting new intent
+                Intent in = new Intent(getApplicationContext(), ShowDataEntity.class);
+                // sending pid to next activity
+                in.putExtra(dbmanager.CN_NAME, nombre);
+                in.putExtra(dbmanager.CN_DESCRIPCION, descripcion);
+                in.putExtra(dbmanager.CN_TELEFONO, telefono);
+                in.putExtra(dbmanager.CN_LAT,lat);
+                in.putExtra(dbmanager.CN_LON,lon);
+                in.putExtra(dbmanager.CN_LOGO, logo);
+
+
+                // starting new activity and expecting some response back
+                startActivityForResult(in, 100);
+
+
 
             }
 
         });
-
-
-
-
-
-
 
 
 }
@@ -216,11 +224,6 @@ public class MainActivity extends AppCompatActivity
         items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", "Cordoba","Argentina",R.drawable.ic_menu_manage));
         items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva ", "Cordoba","Argentina",R.drawable.ic_menu_camera));
         items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", "Cordoba","Argentina",R.drawable.ic_menu_manage));
-
-
-
-
-
 
 
         // Obtener el Recycler
@@ -246,7 +249,8 @@ public class MainActivity extends AppCompatActivity
         if(view.getId()==R.id.btn_buscar)
         {
 
-        String txtingresado=editTxt.getText().toString();
+            String txtingresado=editTxt.getText().toString();
+            String txthint=editTxt.getHint().toString();
 
             if (!txtingresado.isEmpty()){
 
@@ -254,9 +258,16 @@ public class MainActivity extends AppCompatActivity
                 Cursor c=dbmanager.buscarEntidad(txtingresado);
                 adaptador.changeCursor(c);
 
+                if (adaptador.isEmpty())
+                {
+                    Toast.makeText(this,"No se encontraron resultados",Toast.LENGTH_SHORT).show();
+                }
+
 
             } else{
-                Toast.makeText(this,"Debe ingresar algun nombre válido",Toast.LENGTH_SHORT).show();
+
+
+               cargarListado();
             }
 
 

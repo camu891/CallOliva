@@ -106,7 +106,11 @@ public class DataBaseManager {
 
         String[] columnas=new String[]{CN_ID,CN_NAME,CN_DESCRIPCION,CN_TELEFONO,CN_LAT,CN_LON,CN_CALLE,CN_NCALLE,CN_CIUDAD,CN_PROVINCIA,CN_PAIS,CN_LOGO};
 
-        return db.query(TABLE_NAME,columnas,CN_NAME+"=?",new String[]{nombre},null,null,null);
+        //return db.query(TABLE_NAME,columnas,CN_NAME+"=?",new String[]{nombre},null,null,null);
+
+       return db.query(true, TABLE_NAME,columnas, CN_NAME + " LIKE ?",
+                new String[] { nombre+"%" }, null, null, null,
+                null);
 
     }
 
