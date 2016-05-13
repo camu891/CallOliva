@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class ShowDataEntity extends AppCompatActivity implements OnMapReadyCallb
     private LatLng coordenadas_entidad;
     private TextView tvemail;
     private String email;
+    private Button btelefono;
 
     private AlertDialog ad;
 
@@ -93,15 +95,17 @@ public class ShowDataEntity extends AppCompatActivity implements OnMapReadyCallb
 
         tvnombre = (TextView) findViewById(R.id.txt_snombre);
         tvdescripcion = (TextView) findViewById(R.id.txt_sdescripcion);
-        tvtelefono = (TextView) findViewById(R.id.txt_stelefono);
+        //tvtelefono = (TextView) findViewById(R.id.txt_stelefono);
         tvimagen = (ImageView) findViewById(R.id.simagen);
+        btelefono= (Button) findViewById(R.id.btn_call);
 
 
 
         tvnombre.setText(nombre);
         tvdescripcion.setText(descripcion);
-        tvtelefono.setText(telefono);
+        //tvtelefono.setText(telefono);
         tvimagen.setBackgroundResource(logo);
+        btelefono.setText("Llamar "+telefono);
 
 
 

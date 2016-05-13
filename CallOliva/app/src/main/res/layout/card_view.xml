@@ -67,7 +67,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="nroCalle"
             android:id="@+id/nrocalle"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:paddingTop="10dp" />
 
         </LinearLayout>

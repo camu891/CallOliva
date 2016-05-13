@@ -19,35 +19,34 @@
         android:orientation="vertical">
 
 
-        <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <!--  <LinearLayout
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txt_buscar"
-            android:hint="Buscar..."
-            android:singleLine="true" />
+          <EditText
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/txt_buscar"
+              android:hint="Buscar..."
+              android:singleLine="true"
+              android:inputType="text"
+              android:imeOptions="actionSearch"/>
 
-            <Button
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:id="@+id/btn_buscar"
-
-                android:background="@drawable/ic_action_search"
-                android:layout_below="@+id/txt_buscar"
-                android:layout_marginLeft="-50dp"
-                android:gravity="center_vertical"
-                android:layout_marginTop="-5dp"
-                android:backgroundTint="@color/colorAccent" />
-
-
-        </LinearLayout>
-
+              <Button
+                  android:layout_width="45dp"
+                  android:layout_height="45dp"
+                  android:id="@+id/btn_buscar"
+                  android:background="@drawable/ic_action_search"
+                  android:layout_below="@+id/txt_buscar"
+                  android:layout_marginLeft="-50dp"
+                  android:gravity="center_vertical"
+                  android:layout_marginTop="-5dp"
+                  android:backgroundTint="@color/colorAccent"
+                  android:visibility="visible"/>
 
 
+          </LinearLayout>-->
 
 
 
@@ -65,7 +64,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="3dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:visibility="gone"/>
 
 
     </LinearLayout>

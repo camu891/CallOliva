@@ -61,8 +61,9 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Descripcion"
                     android:id="@+id/txt_sdescripcion"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="20dp" />
+                    android:paddingTop="5dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="8pt" />
 
 
 
@@ -99,7 +100,7 @@
                 android:layout_height="1dp"
                 android:background="@color/colorPrimaryDark"></View>
 
-            <LinearLayout
+          <!--  <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -140,43 +141,36 @@
                 android:onClick="callEntity" />
 
 
-        </LinearLayout>
+        </LinearLayout> -->
 
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <Button
+                android:id="@+id/btn_call"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp">
+                android:drawableLeft="@drawable/ic_action_call_phone"
+                android:backgroundTint="@color/colorAccent"
+                android:text="Llamar"
+                android:onClick="callEntity"
+                android:textColor="#ffffff" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Enviar email "
-                    android:id="@+id/textView4"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:textColor="@color/material_grey_850"
-                    android:textSize="8pt" />
+
 
 
                 <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
                     android:id="@+id/btn_sendemail"
-                    android:layout_gravity="left|center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_menu_send"
                     android:backgroundTint="@color/colorAccent"
-                    android:background="@drawable/ic_menu_send"
-                    android:layout_marginLeft="80dp"
-                    android:onClick="sendEmail" />
+                    android:text="Enviar email"
+                    android:onClick="sendEmail"
+                    android:textColor="#ffffff" />
 
 
-            </LinearLayout>
+
+
+
 
 
 

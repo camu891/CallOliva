@@ -3,14 +3,15 @@ package com.matic.calloliva;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,23 +22,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener ,SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
 
     private ListView listado;
     private CardView cardView;
-
 
     private RecyclerView recycler;
     private RecyclerView.Adapter adapter;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
     private SimpleCursorAdapter adaptador;
 
-    private EditText editTxt;
+    private EditText editTxtBuscar;
     private Button btnBuscar;
 
     private ImageView iv;
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -91,10 +95,22 @@ public class MainActivity extends AppCompatActivity
 
         //cargarCardView();
 
-        editTxt= (EditText) findViewById(R.id.txt_buscar);
-        btnBuscar= (Button) findViewById(R.id.btn_buscar);
-        btnBuscar.setOnClickListener(this);
+        /*
+        editTxtBuscar = (EditText) findViewById(R.id.txt_buscar);
+        //investigar porque no funciona
+        editTxtBuscar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    buscador();
+                    return true;
+                }
 
+                return false;
+            }
+        });
+        btnBuscar= (Button) findViewById(R.id.btn_buscar);
+        btnBuscar.setOnClickListener(this);*/
 
 
     }
@@ -112,8 +128,76 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.main, menu);
+        //return true;
+        /*getMenuInflater().inflate(R.menu.buscador, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.menu_buscador);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, this);
+
+        return super.onCreateOptionsMenu(menu);*/
+
+        try {
+            menu.clear();
+            getMenuInflater().inflate(R.menu.menu, menu);
+
+            RelativeLayout actionView = (RelativeLayout) menu.findItem(R.id.menu_search).getActionView();
+            final EditText editText = (EditText) actionView.findViewById(R.id.etSearch);
+            //final EditText editText = (EditText) menu.findItem(R.id.menu_search).getActionView();
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    menuBuscador(s);
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+
+
+                }
+
+
+            });
+
+            MenuItem menuItem = menu.findItem(R.id.menu_search);
+            MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    editText.requestFocus();
+
+                    //((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    return true; // Return true to expand action view
+                }
+
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    // Do something when collapsed
+
+                    // Borramos el texto que había escrito.
+                    editText.setText("");
+
+                    return true; // Return true to collapse action view
+                }
+            });
+        } catch (Exception ex) {
+
+        }
+
+        return super.onCreateOptionsMenu(menu);
+
+
+
     }
 
     @Override
@@ -163,6 +247,7 @@ public class MainActivity extends AppCompatActivity
 
        dbmanager=new DataBaseManager(this);
 
+       //cargo datos a mano para probar
        /*dbmanager.insertar("Bomberos","Bomberos Voluntarios Oliva","(03532)-420019",-32.041898, -63.567356,"Caseros",245,"Oliva"," Cordoba","Argentina",R.drawable.logo_bomberos,"bomberosvoluntariosoliva@hotmail.com");
        dbmanager.insertar("Policia","Policia Oliva","(03532) 42-8921",-32.042117, -63.567657,"Caseros",227,"Oliva"," Cordoba","Argentina",R.drawable.logo_policia,"null");
        dbmanager.insertar("Grido","Grido Helados\nhttp://www.gridohelado.com.ar/","(0351) 15-515-1930",-32.041107, -63.570168,"Av Emilio Olmos", 111,"Oliva"," Cordoba","Argentina",R.drawable.logo_grido,"null");
@@ -253,31 +338,69 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.btn_buscar)
+        /*if(view.getId()==R.id.btn_buscar)
         {
+            buscador();
+        }*/
+    }
 
-            String txtingresado=editTxt.getText().toString();
-            String txthint=editTxt.getHint().toString();
+    /*
+    private void buscador() {
+        String txtingresado= editTxtBuscar.getText().toString();
+        String txthint= editTxtBuscar.getHint().toString();
 
-            if (!txtingresado.isEmpty()){
-
-
-                Cursor c=dbmanager.buscarEntidad(txtingresado);
-                adaptador.changeCursor(c);
-
-                if (adaptador.isEmpty())
-                {
-                    Toast.makeText(this,"No se encontraron resultados",Toast.LENGTH_SHORT).show();
-                }
+        if (!txtingresado.isEmpty()){
 
 
-            } else{
+            Cursor c=dbmanager.buscarEntidad(txtingresado);
+            adaptador.changeCursor(c);
 
-
-               cargarListado();
+            if (adaptador.isEmpty())
+            {
+                Toast.makeText(this,"No se encontraron resultados",Toast.LENGTH_SHORT).show();
             }
 
 
+        } else{
+
+
+            cargarListado();
         }
+
+    }*/
+
+
+    public void menuBuscador(CharSequence s){
+        Cursor c=dbmanager.buscarEntidad(s);
+        adaptador.changeCursor(c);
+
+        if (adaptador.isEmpty())
+        {
+            Toast.makeText(this,"No se encontraron resultados",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    //metodos de busqueda
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        return false;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        menuBuscador(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        menuBuscador(newText);
+        return false;
     }
 }

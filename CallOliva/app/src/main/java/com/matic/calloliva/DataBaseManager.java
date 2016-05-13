@@ -105,7 +105,7 @@ public class DataBaseManager {
     }
 
 
-    public Cursor buscarEntidad(String nombre){
+    public Cursor buscarEntidad(CharSequence nombre){
 
         String[] columnas=new String[]{CN_ID,CN_NAME,CN_DESCRIPCION,CN_TELEFONO,CN_LAT,CN_LON,CN_CALLE,CN_NCALLE,CN_CIUDAD,CN_PROVINCIA,CN_PAIS,CN_LOGO,CN_EMAIL};
 
