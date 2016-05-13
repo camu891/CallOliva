@@ -32,8 +32,8 @@
 
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:id="@+id/simagen"/>
 
             <LinearLayout
@@ -52,7 +52,8 @@
                     android:text="Nombre"
                     android:id="@+id/txt_snombre"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:paddingLeft="20dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -60,7 +61,8 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Descripcion"
                     android:id="@+id/txt_sdescripcion"
-                    android:paddingTop="10dp" />
+                    android:paddingTop="10dp"
+                    android:paddingLeft="20dp" />
 
 
 
@@ -80,15 +82,32 @@
             android:name="com.google.android.gms.maps.SupportMapFragment" />
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contato: "
+                android:id="@+id/textView3"
+                android:textStyle="bold"
+                android:paddingLeft="20dp"
+                android:textColor="#000000"
+                android:textSize="9pt"
+                android:paddingTop="20dp"
+                android:paddingBottom="5dp" />
 
-        <LinearLayout
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimaryDark"></View>
+
+            <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:paddingTop="30dp">
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -98,7 +117,7 @@
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:textColor="#000000"
+                android:textColor="@color/material_grey_850"
                 android:textSize="8pt" />
 
             <TextView
@@ -107,7 +126,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Teléfono"
                 android:id="@+id/txt_stelefono"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="2dp" />
 
             <Button
                 android:layout_width="35dp"
@@ -115,12 +135,53 @@
                 android:id="@+id/btn_call"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/colorAccent"
-                android:background="@android:drawable/ic_menu_call"
+                android:background="@drawable/ic_action_call_phone"
                 android:layout_marginLeft="30dp"
                 android:onClick="callEntity" />
 
 
         </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enviar email "
+                    android:id="@+id/textView4"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/material_grey_850"
+                    android:textSize="8pt" />
+
+
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:id="@+id/btn_sendemail"
+                    android:layout_gravity="left|center_vertical"
+                    android:backgroundTint="@color/colorAccent"
+                    android:background="@drawable/ic_menu_send"
+                    android:layout_marginLeft="80dp"
+                    android:onClick="sendEmail" />
+
+
+            </LinearLayout>
+
+
+
+
+
 
         </LinearLayout>
     </ScrollView>

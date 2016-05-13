@@ -42,6 +42,8 @@ public class ShowDataEntity extends AppCompatActivity implements OnMapReadyCallb
     private TextView tvtelefono;
     private ImageView tvimagen;
     private LatLng coordenadas_entidad;
+    private TextView tvemail;
+    private String email;
 
     private AlertDialog ad;
 
@@ -84,14 +86,10 @@ public class ShowDataEntity extends AppCompatActivity implements OnMapReadyCallb
         String telefono = getIntent().getStringExtra(dbmanager.CN_TELEFONO);
         double lat = Double.parseDouble(getIntent().getStringExtra(dbmanager.CN_LAT));
         double lon = Double.parseDouble(getIntent().getStringExtra(dbmanager.CN_LON));
-        //int logo=Integer.parseInt(getIntent().getStringExtra(dbmanager.CN_LOGO));
-        String logo = getIntent().getStringExtra(dbmanager.CN_LOGO);
+        int logo = Integer.parseInt(getIntent().getStringExtra(dbmanager.CN_LOGO));
+        email= getIntent().getStringExtra(dbmanager.CN_EMAIL);
 
-        Toast.makeText(this, "logo: " + logo, Toast.LENGTH_SHORT).show();
         coordenadas_entidad = new LatLng(lat, lon);
-
-        //Toast.makeText(this,"coordenadas: "+coordenadas_entidad,Toast.LENGTH_SHORT).show();
-
 
         tvnombre = (TextView) findViewById(R.id.txt_snombre);
         tvdescripcion = (TextView) findViewById(R.id.txt_sdescripcion);
@@ -99,10 +97,12 @@ public class ShowDataEntity extends AppCompatActivity implements OnMapReadyCallb
         tvimagen = (ImageView) findViewById(R.id.simagen);
 
 
+
         tvnombre.setText(nombre);
         tvdescripcion.setText(descripcion);
         tvtelefono.setText(telefono);
-        // tvimagen.setBackgroundResource(logo);
+        tvimagen.setBackgroundResource(logo);
+
 
 
     }
@@ -203,6 +203,22 @@ public class ShowDataEntity extends AppCompatActivity implements OnMapReadyCallb
     private void populateAutoComplete() {
         if (!myRequestCall()) {
             return;
+        }
+
+    }
+
+
+    public void sendEmail(View view) {
+
+        if(!email.equals("null")) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/html");
+        intent.putExtra(Intent.EXTRA_EMAIL, email);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Enviado desde CallOliva");
+        startActivity(Intent.createChooser(intent, "Enviar Email"));
+        }
+        else{
+            Toast.makeText(this,getString(R.string.message_error_email),Toast.LENGTH_SHORT).show();
         }
 
     }

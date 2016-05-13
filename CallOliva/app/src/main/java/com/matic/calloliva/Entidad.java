@@ -17,8 +17,9 @@ public class Entidad {
     private String provincia;
     private String pais;
     private int logo;
+    private String email;
 
-    public Entidad(int id,String nombre, String descripcion, String telefono, double lat, double lon, String calle,int nroCalle, String ciudad,String provincia,String pais, int logo) {
+    public Entidad(int id,String nombre, String descripcion, String telefono, double lat, double lon, String calle,int nroCalle, String ciudad,String provincia,String pais, int logo, String email) {
         this.id=id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -31,6 +32,7 @@ public class Entidad {
         this.provincia=provincia;
         this.logo = logo;
         this.pais = pais;
+        this.email=email;
 
     }
 
@@ -82,6 +84,8 @@ public class Entidad {
         return logo;
     }
 
+    public String getEmail(){return email;}
+
 
     public void setId(int id) {
         this.id = id;
@@ -131,6 +135,12 @@ public class Entidad {
         this.logo = logo;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+
     @Override
     public String toString() {
         return "Entidad{" +
@@ -146,6 +156,7 @@ public class Entidad {
                 ", provincia='" + provincia+ '\'' +
                 ", pais='" + pais + '\'' +
                 ", logo='" + logo + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

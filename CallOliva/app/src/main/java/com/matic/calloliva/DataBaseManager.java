@@ -25,6 +25,7 @@ public class DataBaseManager {
     public static final String CN_PAIS="pais";
     public static final String CN_PROVINCIA="provincia";
     public static final String CN_LOGO="logo";
+    public static final String CN_EMAIL="email";
 
 
     //sentencia sql para crear tabla}
@@ -40,7 +41,8 @@ public class DataBaseManager {
             +CN_CIUDAD+" text ,"
             +CN_PROVINCIA+" text ,"
             +CN_PAIS+" text ,"
-            +CN_LOGO+" integer);";
+            +CN_LOGO+" integer ,"
+            +CN_EMAIL+" text);";
 
 
     private DBHelper helper;
@@ -52,7 +54,7 @@ public class DataBaseManager {
     }
 
 
-    public ContentValues generarContentValues(String nombre, String descripcion, String telefono,double lat, double lon, String calle, int ncalle,String ciudad, String provincia, String pais, int logo){
+    public ContentValues generarContentValues(String nombre, String descripcion, String telefono,double lat, double lon, String calle, int ncalle,String ciudad, String provincia, String pais, int logo,String email){
 
 
         ContentValues valores=new ContentValues();
@@ -67,16 +69,17 @@ public class DataBaseManager {
         valores.put(CN_PROVINCIA,provincia);
         valores.put(CN_PAIS,pais);
         valores.put(CN_LOGO,logo);
+        valores.put(CN_EMAIL,email);
 
         return valores;
 
     }
 
 
-    public void insertar(String nombre, String descripcion, String telefono,double lat, double lon, String calle, int ncalle,String ciudad, String provincia, String pais, int logo){
+    public void insertar(String nombre, String descripcion, String telefono,double lat, double lon, String calle, int ncalle,String ciudad, String provincia, String pais, int logo, String email){
 
         //db.insert(TABLA, NUllColumnHack, ContentValues)
-        db.insert(TABLE_NAME,null,generarContentValues(nombre,descripcion,telefono,lat,lon,calle,ncalle,ciudad,provincia,pais,logo));
+        db.insert(TABLE_NAME,null,generarContentValues(nombre,descripcion,telefono,lat,lon,calle,ncalle,ciudad,provincia,pais,logo,email));
 
     }
 
@@ -87,15 +90,15 @@ public class DataBaseManager {
     }
 
 
-    public void update(String nombre, String descripcion, String telefono,double lat, double lon, String calle, int ncalle,String ciudad, String provincia, String pais, int logo){
+    public void update(String nombre, String descripcion, String telefono,double lat, double lon, String calle, int ncalle,String ciudad, String provincia, String pais, int logo,String email){
 
-        db.update(TABLE_NAME,generarContentValues(nombre,descripcion,telefono,lat,lon,calle,ncalle,ciudad,provincia,pais,logo),CN_NAME+"=?",new String[]{nombre});
+        db.update(TABLE_NAME,generarContentValues(nombre,descripcion,telefono,lat,lon,calle,ncalle,ciudad,provincia,pais,logo,email),CN_NAME+"=?",new String[]{nombre});
 
     }
 
     public Cursor cargarCursorEntidades(){
 
-        String[] columnas=new String[]{CN_ID,CN_NAME,CN_DESCRIPCION,CN_TELEFONO,CN_LAT,CN_LON,CN_CALLE,CN_NCALLE,CN_CIUDAD,CN_PROVINCIA,CN_PAIS,CN_LOGO};
+        String[] columnas=new String[]{CN_ID,CN_NAME,CN_DESCRIPCION,CN_TELEFONO,CN_LAT,CN_LON,CN_CALLE,CN_NCALLE,CN_CIUDAD,CN_PROVINCIA,CN_PAIS,CN_LOGO,CN_EMAIL};
 
         return db.query(TABLE_NAME,columnas,null,null,null,null,null);
 
@@ -104,7 +107,7 @@ public class DataBaseManager {
 
     public Cursor buscarEntidad(String nombre){
 
-        String[] columnas=new String[]{CN_ID,CN_NAME,CN_DESCRIPCION,CN_TELEFONO,CN_LAT,CN_LON,CN_CALLE,CN_NCALLE,CN_CIUDAD,CN_PROVINCIA,CN_PAIS,CN_LOGO};
+        String[] columnas=new String[]{CN_ID,CN_NAME,CN_DESCRIPCION,CN_TELEFONO,CN_LAT,CN_LON,CN_CALLE,CN_NCALLE,CN_CIUDAD,CN_PROVINCIA,CN_PAIS,CN_LOGO,CN_EMAIL};
 
         //return db.query(TABLE_NAME,columnas,CN_NAME+"=?",new String[]{nombre},null,null,null);
 

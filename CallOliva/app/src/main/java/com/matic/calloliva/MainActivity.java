@@ -3,6 +3,7 @@ package com.matic.calloliva;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity
 
     private EditText editTxt;
     private Button btnBuscar;
+
+    private ImageView iv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,20 +162,25 @@ public class MainActivity extends AppCompatActivity
 
 
        dbmanager=new DataBaseManager(this);
-       /*dbmanager.insertar("Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva"," Cordoba","Argentina",R.drawable.ic_menu_camera);
-       dbmanager.insertar("Bomberos2","Bomberos2","324324",-34.565656,-60.54656,"Bolivia",156,"Oliva"," Cordoba","Argentina",R.drawable.ic_menu_camera);
-       dbmanager.insertar("Bomberos3","Bomberos3","132432",-34.565656,-60.54656,"Bolivia",156,"Oliva"," Cordoba","Argentina",R.drawable.ic_menu_camera);
-        */
+
+       /*dbmanager.insertar("Bomberos","Bomberos Voluntarios Oliva","(03532)-420019",-32.041898, -63.567356,"Caseros",245,"Oliva"," Cordoba","Argentina",R.drawable.logo_bomberos,"bomberosvoluntariosoliva@hotmail.com");
+       dbmanager.insertar("Policia","Policia Oliva","(03532) 42-8921",-32.042117, -63.567657,"Caseros",227,"Oliva"," Cordoba","Argentina",R.drawable.logo_policia,"null");
+       dbmanager.insertar("Grido","Grido Helados\nhttp://www.gridohelado.com.ar/","(0351) 15-515-1930",-32.041107, -63.570168,"Av Emilio Olmos", 111,"Oliva"," Cordoba","Argentina",R.drawable.logo_grido,"null");
+     */
 
         cursor=dbmanager.cargarCursorEntidades();
 
         listado = (ListView)findViewById(R.id.listview);
 
-        String[] from= new String[]{dbmanager.CN_LOGO,dbmanager.CN_NAME,dbmanager.CN_DESCRIPCION,dbmanager.CN_TELEFONO,dbmanager.CN_LAT,dbmanager.CN_LON};
-        int[] to=new int[]{R.id.imagen,R.id.nombre,R.id.descripcion,R.id.telefono,R.id.lat,R.id.lon};
+        String[] from= new String[]{dbmanager.CN_LOGO,dbmanager.CN_NAME,dbmanager.CN_CALLE,dbmanager.CN_NCALLE,dbmanager.CN_DESCRIPCION,dbmanager.CN_TELEFONO,dbmanager.CN_LAT,dbmanager.CN_LON,dbmanager.CN_LOGO,dbmanager.CN_EMAIL};
+        int[] to=new int[]{R.id.imagen,R.id.nombre,R.id.calle,R.id.nrocalle,R.id.descripcion,R.id.telefono,R.id.lat,R.id.lon,R.id.logo,R.id.email};
 
         adaptador=new SimpleCursorAdapter(this,R.layout.card_view,cursor,from,to);
+
         listado.setAdapter(adaptador);
+
+
+
 
         listado.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
@@ -186,7 +195,9 @@ public class MainActivity extends AppCompatActivity
                 String telefono = ((TextView) view.findViewById(R.id.telefono)).getText().toString();
                 String lat=((TextView) view.findViewById(R.id.lat)).getText().toString();
                 String lon=((TextView) view.findViewById(R.id.lon)).getText().toString();
-                String logo=view.findViewById(R.id.imagen).getResources().toString();
+                String logo=((TextView) view.findViewById(R.id.logo)).getText().toString();
+                String email=((TextView)view.findViewById(R.id.email)).getText().toString();
+
 
                 // Starting new intent
                 Intent in = new Intent(getApplicationContext(), ShowDataEntity.class);
@@ -197,17 +208,16 @@ public class MainActivity extends AppCompatActivity
                 in.putExtra(dbmanager.CN_LAT,lat);
                 in.putExtra(dbmanager.CN_LON,lon);
                 in.putExtra(dbmanager.CN_LOGO, logo);
+                in.putExtra(dbmanager.CN_EMAIL, email);
+
 
 
                 // starting new activity and expecting some response back
                 startActivityForResult(in, 100);
 
-
-
             }
 
         });
-
 
 }
 
@@ -218,12 +228,9 @@ public class MainActivity extends AppCompatActivity
 
         List<Entidad> items = new ArrayList<>();
 
-        items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", " Cordoba","Argentina",R.drawable.ic_menu_camera));
-        items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", " Cordoba","Argentina",R.drawable.ic_menu_manage));
-        items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva ", "Cordoba","Argentina",R.drawable.ic_menu_camera));
-        items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", "Cordoba","Argentina",R.drawable.ic_menu_manage));
-        items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva ", "Cordoba","Argentina",R.drawable.ic_menu_camera));
-        items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", "Cordoba","Argentina",R.drawable.ic_menu_manage));
+        items.add(new Entidad(0,"Bomberos","Bomberos","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", " Cordoba","Argentina",R.drawable.ic_menu_camera,"aa@a,com"));
+        items.add(new Entidad(1,"Policia","Policia","12345",-34.565656,-60.54656,"Bolivia",156,"Oliva", " Cordoba","Argentina",R.drawable.ic_menu_manage,"aa@a,com"));
+
 
 
         // Obtener el Recycler

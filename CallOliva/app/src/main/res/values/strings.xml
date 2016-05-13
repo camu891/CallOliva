@@ -10,4 +10,10 @@
 
     <string name="permission_rationale">Se necesita el permiso para poder realizar las llamadas</string>
 
+    <!-- formulario -->
+    <string name="hint_form_message">Escriba algún mensaje...</string>
+    <string name="hint_form_mail">Ingrese su email</string>
+
+    <string name="message_error_email">Lo sentimos, no hay email de contacto disponible.</string>
+
 </resources>
